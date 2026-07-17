@@ -1,0 +1,31 @@
+date,admin1,admin2,market,market_id,latitude,longitude,category,commodity,commodity_id,unit,priceflag,pricetype,currency,price,usdprice
+2006-07-15,BRONG AHAFO,TECHIMAN MUNICIPAL,Techiman,218,7.58,-1.93,cereals and tubers,Cassava,68,91 KG,actual,Wholesale,GHS,14.5,15.76
+2006-10-15,BRONG AHAFO,TECHIMAN MUNICIPAL,Techiman,218,7.58,-1.93,cereals and tubers,Cassava,68,91 KG,actual,Wholesale,GHS,13.75,14.95
+2011-05-15,ASHANTI,KMA,Kumasi,215,6.68,-1.62,cereals and tubers,Rice (local),71,50 KG,actual,Wholesale,GHS,53.0,35.1
+2012-07-15,GREATER ACCRA,ACCRA METROPOLIS,Accra,209,5.55,-0.22,cereals and tubers,Yam,99,100 Tubers,actual,Wholesale,GHS,461.5,236.67
+2012-11-15,NORTHERN,TAMALE NORTH SUB METRO,Tamale,220,9.4,-0.83,cereals and tubers,Cassava,68,91 KG,actual,Wholesale,GHS,60.0,31.91
+2012-12-15,GREATER ACCRA,ACCRA METROPOLIS,Accra,209,5.55,-0.22,cereals and tubers,Yam,99,100 Tubers,actual,Wholesale,GHS,329.0,174.07
+2013-02-15,VOLTA,HO MUNICIPAL,Ho,219,6.6,0.47,cereals and tubers,Yam,99,100 Tubers,actual,Wholesale,GHS,262.5,138.89
+2014-09-15,ASHANTI,KMA,Kumasi,215,6.68,-1.62,cereals and tubers,Cassava,68,91 KG,actual,Wholesale,GHS,27.5,7.77
+2014-10-15,NORTHERN,ZABZUGU,Zabzugu,1740,9.3,0.37,cereals and tubers,Rice (imported),64,50 KG,actual,Wholesale,GHS,153.75,48.2
+2015-04-15,BRONG AHAFO,TECHIMAN MUNICIPAL,Techiman,218,7.58,-1.93,vegetables and fruits,Plantains (apentu),98,Bunch,actual,Wholesale,GHS,32.5,8.49
+2017-02-15,UPPER EAST,BOLGATANGA MUNICIPAL,Bolga,221,10.79,-0.85,cereals and tubers,Rice (imported),64,50 KG,actual,Wholesale,GHS,290.0,66.06
+2018-04-15,EASTERN,NEW JUABEN MUNICIPAL,Koforidua,212,6.08,-0.25,cereals and tubers,Maize,51,100 KG,actual,Wholesale,GHS,180.0,40.69
+2020-01-15,GREATER ACCRA,ACCRA METROPOLIS,Accra,209,5.55,-0.22,cereals and tubers,Maize,51,100 KG,"actual,aggregate",Wholesale,GHS,166.67,29.5
+2020-09-15,NORTHERN,YENDI MUNICIPAL,Yendi,1739,9.45,-0.01,"meat, fish and eggs",Eggs,92,30 pcs,aggregate,Wholesale,GHS,110.0,19.2
+2020-11-15,GREATER ACCRA,ACCRA METROPOLIS,Accra,209,5.55,-0.22,cereals and tubers,Maize (yellow),136,KG,aggregate,Retail,GHS,2.34,0.41
+2021-01-15,VOLTA,HOHOE MUNICIPAL,Hohoe,2802,7.15,0.47,vegetables and fruits,Plantains (apem),705,Bunch,aggregate,Wholesale,GHS,13.82,2.38
+2021-02-15,BRONG AHAFO,SUNYANI MUNICIPAL,Sunyani,217,7.33,-2.33,cereals and tubers,Gari,63,KG,aggregate,Retail,GHS,5.73,0.99
+2021-03-15,BRONG AHAFO,TECHIMAN MUNICIPAL,Techiman,218,7.58,-1.93,cereals and tubers,Rice (local),71,KG,aggregate,Retail,GHS,3.6,0.63
+2021-06-15,CENTRAL,MFANTSIMAN,Mankessim,214,5.27,-1.02,vegetables and fruits,Onions,173,KG,aggregate,Retail,GHS,3.29,0.57
+2021-06-15,BRONG AHAFO,SUNYANI MUNICIPAL,Sunyani,217,7.33,-2.33,pulses and nuts,Cowpeas (white),479,109 KG,aggregate,Wholesale,GHS,494.34,85.67
+2021-07-15,CENTRAL,CAPE COAST METRO,Cape Coast,213,5.11,-1.24,cereals and tubers,Millet,73,KG,aggregate,Retail,GHS,5.0,0.85
+2022-01-15,UPPER EAST,GARU TEMPANE,Garu,1720,10.85,-0.18,cereals and tubers,Millet,73,KG,aggregate,Retail,GHS,3.67,0.6
+2022-04-15,ASHANTI,KMA,Kumasi,215,6.68,-1.62,vegetables and fruits,Onions,173,KG,aggregate,Retail,GHS,3.89,0.52
+2022-09-15,GREATER ACCRA,ACCRA METROPOLIS,Accra,209,5.55,-0.22,vegetables and fruits,Eggplants,434,27 KG,aggregate,Wholesale,GHS,156.6,15.82
+2023-01-15,GREATER ACCRA,ACCRA METROPOLIS,Accra,209,5.55,-0.22,vegetables and fruits,Tomatoes (local),346,KG,aggregate,Retail,GHS,8.97,0.78
+2023-02-15,WESTERN,SEKONDI TAKORADI,Sekondi/Takoradi,211,4.93,-1.7,vegetables and fruits,Peppers (dried),714,KG,aggregate,Retail,GHS,7.74,0.64
+2023-03-15,WESTERN,SEKONDI TAKORADI,Sekondi/Takoradi,211,4.93,-1.7,cereals and tubers,Yam,99,250 KG,aggregate,Wholesale,GHS,1125.95,92.29
+2023-04-15,BRONG AHAFO,SUNYANI MUNICIPAL,Sunyani,217,7.33,-2.33,vegetables and fruits,Plantains (apentu),98,KG,aggregate,Retail,GHS,2.98,0.26
+2023-06-15,VOLTA,NKWANTA SOUTH,Nkwanta,1733,8.26,0.52,vegetables and fruits,Tomatoes (local),346,52 KG,aggregate,Wholesale,GHS,27.69,2.52
+2023-07-15,NORTHERN,TAMALE NORTH SUB METRO,Tamale,220,9.4,-0.83,cereals and tubers,Rice (imported),64,50 KG,aggregate,Wholesale,GHS,679.01,61.73
