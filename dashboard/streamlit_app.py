@@ -5,18 +5,37 @@ import pandas as pd
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from src.db import build_database, DB_PATH
+from src.db import build_database, DB_PATH, BuildError
 
 st.set_page_config(page_title="Food Security Tracker", layout="wide")
 st.title("🌾 Food Security Tracker — West Africa")
 
-# Build the database on first run if it doesn't exist yet; otherwise reuse it.
-if not DB_PATH.exists():
+import duckdb
+
+
+def get_connection():
+    """Build the database if needed, and verify it's actually usable --
+    not just that the file exists. Rebuilds automatically if the existing
+    file is missing the table the app needs (e.g. leftover from a prior
+    failed deploy)."""
+    if DB_PATH.exists():
+        try:
+            con = duckdb.connect(str(DB_PATH), read_only=True)
+            con.sql("SELECT 1 FROM region_month_mart LIMIT 1")
+            return con
+        except Exception:
+            # Existing file is stale/corrupt/incomplete -- fall through to rebuild.
+            pass
     with st.spinner("Building database from raw sources (first run only)..."):
         build_database().close()
+    return duckdb.connect(str(DB_PATH), read_only=True)
 
-import duckdb
-con = duckdb.connect(str(DB_PATH), read_only=True)
+
+try:
+    con = get_connection()
+except BuildError as e:
+    st.error(f"Could not build the database: {e}")
+    st.stop()
 
 # --- Sidebar filters ---
 regions = con.sql("SELECT DISTINCT region FROM region_month_mart ORDER BY 1").df()["region"]
