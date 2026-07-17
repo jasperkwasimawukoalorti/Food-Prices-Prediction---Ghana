@@ -1,7 +1,0 @@
-data/*.csv
-!data/sample_*.csv
-*.duckdb
-__pycache__/
-.ipynb_checkpoints/
-.env
-.DS_Store
