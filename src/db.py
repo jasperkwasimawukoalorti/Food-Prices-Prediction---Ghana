@@ -22,6 +22,7 @@ reboot. To avoid that: build into a temp file, only move it into place on
 success, and always clean up on failure.
 """
 import os
+import uuid
 import duckdb
 import pandas as pd
 import requests
@@ -64,9 +65,23 @@ def _check_prerequisites():
 def build_database(db_path: Path = DB_PATH) -> duckdb.DuckDBPyConnection:
     _check_prerequisites()
 
-    tmp_path = db_path.with_suffix(".building.duckdb")
-    if tmp_path.exists():
-        tmp_path.unlink()
+    # If another concurrent request already finished building while we were
+    # checking, just use its result instead of racing it. This is the actual
+    # fix for a real failure: concurrent cold-start requests all saw "no file
+    # yet" at once and collided on a shared temp filename before this fix.
+    if db_path.exists():
+        try:
+            probe = duckdb.connect(str(db_path), read_only=True)
+            probe.sql(f"SELECT 1 FROM {REQUIRED_TABLE} LIMIT 1")
+            probe.close()
+            return duckdb.connect(str(db_path))
+        except Exception:
+            pass  # existing file is stale/corrupt -- fall through and rebuild
+
+    # Unique per attempt (pid + random suffix) so concurrent builds never
+    # write to the same temp file, regardless of how many requests arrive
+    # at once on a cold start.
+    tmp_path = db_path.with_name(f"{db_path.stem}.{os.getpid()}.{uuid.uuid4().hex[:8]}.building.duckdb")
 
     con = None
     try:
@@ -121,8 +136,19 @@ def build_database(db_path: Path = DB_PATH) -> duckdb.DuckDBPyConnection:
 
         # Atomic swap -- only replace the real DB file once the build is
         # fully verified. A failure above never touches db_path at all.
+        # If another concurrent attempt already finished and swapped in a
+        # good file while we were building, prefer theirs and discard ours
+        # rather than erroring -- either file is equally valid, no need to
+        # fight over it.
         if db_path.exists():
-            db_path.unlink()
+            try:
+                probe = duckdb.connect(str(db_path), read_only=True)
+                probe.sql(f"SELECT 1 FROM {REQUIRED_TABLE} LIMIT 1")
+                probe.close()
+                tmp_path.unlink()
+                return duckdb.connect(str(db_path))
+            except Exception:
+                db_path.unlink()
         os.replace(tmp_path, db_path)
 
     except Exception:
