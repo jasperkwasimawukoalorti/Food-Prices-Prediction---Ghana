@@ -25,7 +25,6 @@ import os
 import duckdb
 import pandas as pd
 import requests
-import wbgapi as wb
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -88,7 +87,22 @@ def build_database(db_path: Path = DB_PATH) -> duckdb.DuckDBPyConnection:
         wx["time"] = pd.to_datetime(wx["time"])
         con.register("weather_daily", wx)
 
-        cpi = wb.data.DataFrame("FP.CPI.TOTL", "GHA", time=range(2015, 2024), labels=False).reset_index()
+        # PATCHED: previously used wbgapi's wb.data.DataFrame(...), which
+        # returns a DIFFERENT column shape depending on wbgapi's installed
+        # version (sometimes wide, with years as column names, not a "time"
+        # column at all) -- confirmed live on a real deploy as
+        # "BinderException: Values list 'c' does not have a column named
+        # 'time'". Fetching directly from the World Bank's REST API instead
+        # gives a stable, documented JSON shape we parse ourselves, with no
+        # dependency on a third-party library's internal reshaping.
+        r = requests.get(
+            "https://api.worldbank.org/v2/country/GHA/indicator/FP.CPI.TOTL",
+            params={"date": "2015:2023", "format": "json", "per_page": "100"},
+            timeout=30,
+        ).json()
+        cpi = pd.DataFrame(r[1])[["date", "value"]].copy()
+        cpi["year"] = cpi["date"].astype(int)
+        cpi = cpi.rename(columns={"value": "FP_CPI_TOTL"})[["year", "FP_CPI_TOTL"]]
         con.register("cpi", cpi)
 
         # --- Run the staged SQL files in order ---
