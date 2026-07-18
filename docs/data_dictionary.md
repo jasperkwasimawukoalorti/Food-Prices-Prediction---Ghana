@@ -6,7 +6,7 @@
 |---|---|---|
 | `data/wfp_food_prices_gha.csv` | WFP via HDX (data.humdata.org) | one row per market × commodity × date × pricetype |
 | `weather_daily` (registered, not a file) | Open-Meteo archive API | one row per day, 2015–2023 only |
-| `cpi` (registered, not a file) | World Bank (`wbgapi`, indicator `FP.CPI.TOTL`) | one row per year |
+| `cpi` (registered, not a file) | World Bank REST API directly (indicator `FP.CPI.TOTL`) — not `wbgapi`, see note below | one row per year |
 
 ## `prices` (raw, loaded as-is by `sql/01_staging.sql`)
 
@@ -52,6 +52,8 @@ Same columns as `prices`, filtered to `pricetype = 'Wholesale'`, plus:
 3. **Units** — normalized to price-per-KG for weight-quoted commodities. Count-quoted commodities (Yam — `100 Tubers`, Plantains — `Bunch`, Eggs — `30 pcs`) are excluded from `avg_price`/`real_price` — they remain in `prices_clean` with `price_per_kg = NULL` for anyone who wants to analyse them in their native unit instead.
 
 ## Known gaps
+
+- The CPI source was switched from the `wbgapi` Python package to a direct call to the World Bank's REST API (`api.worldbank.org/v2/...`). `wbgapi`'s `wb.data.DataFrame()` output shape isn't stable across versions — a real deployment hit `BinderException: Values list "c" does not have a column named "time"` because the installed version didn't return the expected `time` column at all. The direct REST call gives a fixed, documented JSON shape and produces a plain integer `year` column instead of a `time` column formatted like `"YR2015"`.
 
 - Weather data starts in 2015; prices go back to 2006. Expect `NULL` rainfall/temperature for 2006–2014.
 - Row counts jump sharply from 2018 (582) to 2019 (3,409) to 2020+ (~5,000–6,500/year) — this reflects WFP expanding market/commodity coverage, not a real price event. Treat any trend spanning that boundary with that caveat in mind.
