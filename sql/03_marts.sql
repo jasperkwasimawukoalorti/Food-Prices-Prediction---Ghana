@@ -42,10 +42,12 @@ FROM prices_monthly p
 LEFT JOIN weather_monthly w
     ON p.month = w.month
 LEFT JOIN cpi c
-    ON EXTRACT(YEAR FROM p.month) = TRY_CAST(REPLACE(c.time, 'YR', '') AS INTEGER)
+    ON EXTRACT(YEAR FROM p.month) = c.year
 ORDER BY p.region, p.commodity, p.month;
 
 -- NOTE: weather only covers 2015-2023 while prices go back to 2006, so
 -- rainfall_mm/avg_temp_c will be NULL for 2006-2014 rows -- expected, not a bug.
--- NOTE: wbgapi's column name (FP_CPI_TOTL above) and the 'time' format
--- ("YR2015" vs 2015) can vary by version -- run DESCRIBE cpi and adjust if needed.
+-- PATCHED: cpi.year is now a plain integer, fetched directly from the World
+-- Bank REST API in src/db.py rather than via wbgapi -- see the comment there
+-- for why (a real deploy hit "Values list 'c' does not have a column named
+-- 'time'" because wbgapi's DataFrame() shape isn't stable across versions).
